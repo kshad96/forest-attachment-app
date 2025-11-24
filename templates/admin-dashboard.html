@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Dashboard - Applications</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+         body {
+    font-family: Arial, sans-serif;
+    background: #f7fafc;
+    margin: 0;
+}
+.container {
+    max-width: 1100px;
+    margin: 40px auto;
+    background: #fff;
+    padding: 30px 18px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.07);
+}
+.dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 32px;
+    flex-wrap: wrap;
+}
+.dashboard-header h1 {
+    margin: 0;
+    font-size: 2.3em;
+    color: #207561;
+    letter-spacing: .5px;
+}
+.dashboard-buttons {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+}
+.dashboard-buttons button,
+.dashboard-buttons a {
+    padding: 10px 22px;
+    border-radius: 7px;
+    font-size: 1em;
+    border: none;
+    background: #207561;
+    color: #fff;
+    text-decoration: none;
+    transition: background 0.2s;
+}
+.dashboard-buttons button:hover,
+.dashboard-buttons a:hover {
+    background: #145241;
+}
+hr { margin: 30px 0; }
+#statusMsg {
+    color: #207561;
+    font-size: 1.06em;
+    margin-bottom:12px;
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 28px;
+    background: #fff;
+}
+th, td {
+    padding: 7px 8px;
+    border: 1px solid #eee;
+    font-size: 0.97em;
+    text-align: left;
+    word-break: break-word;
+}
+th {
+    background: #207561;
+    color: #fff;
+    font-size:1em;
+}
+tr:nth-child(even) {
+    background: #f5f7fb;
+}
+.edit-btn {
+    background: #ffc107;
+    color: #222;
+    border-radius: 5px;
+    padding: 4px 10px;
+    cursor: pointer;
+    border: none;
+    font-size:0.98em;
+}
+.edit-btn:hover {
+    background: #ffde57;
+}
+
+/* --- Mobile Responsive Styles --- */
+@media (max-width: 700px) {
+    .container { padding: 8px; }
+    .dashboard-header {
+        flex-direction: column;
+        align-items: stretch;
+        text-align: left;
+    }
+    .dashboard-buttons {
+        justify-content: flex-end;
+        margin-top: 14px;
+    }
+    table, thead, tbody, th, td, tr { display: block; width: 100%; }
+    tr { margin-bottom: 20px; border-bottom: 2px solid #ddd;}
+    th { display:none;}
+    td {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 14px;
+        word-break: break-word;
+        font-size: 1em;
+    }
+    td::before {
+        content: attr(data-label);
+        font-weight: 700;
+        color: #207561;
+        flex: 1 1 40%;
+        margin-right: 13px;
+        text-align: left;
+    }
+    #statusMsg { margin-bottom:8px; }
+}
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="dashboard-header">
+        <h1>Admin Dashboard</h1>
+        <div class="dashboard-buttons">
+            <button id="printBtn" onclick="window.print()">Print Table</button>
+            <a href="/" class="back-btn">Back to Home</a>
+        </div>
+    </div>
+
+    <div id="statusMsg"></div>
+    <table id="applicationsTable"></table>
+</div>
+
+<script>
+// Helper to capitalize each word in the name
+function capitalizeWords(str) {
+    if (!str) return "";
+    return str
+        .split(" ")
+        .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+        .join(" ");
+}
+
+// Fetch and show all applications
+async function loadApplications() {
+    const res = await fetch('/applications');
+    const data = await res.json();
+    const table = document.getElementById('applicationsTable');
+    if (!data.success || !data.applications || !data.applications.length) {
+        table.innerHTML = "<tr><td>No applications found.</td></tr>";
+        return;
+    }
+    table.innerHTML =
+        `<tr>
+            <th>#</th>
+            <th>Name</th>
+            <th>Admission No</th>
+            <th>Gender</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Class</th>
+            <th>Station</th>
+            <th>Conservancy</th>
+            <th>County</th>
+            <th>Edit</th>
+        </tr>`;
+    data.applications.forEach((app, idx) => {
+        table.innerHTML +=
+            `<tr>
+                <td data-label="#">${idx + 1}</td>
+                <td data-label="Name">${capitalizeWords(app.name || "")}</td>
+                <td data-label="Admission No">${(app.admissionNo || "").toUpperCase()}</td>
+                <td data-label="Gender">${app.gender || ""}</td>
+                <td data-label="Email">${(app.email || "").toLowerCase()}</td>
+                <td data-label="Phone">${app.phone || ""}</td>
+                <td data-label="Class">${app.class || ""}</td>
+                <td data-label="Station">${app.station || ""}</td>
+                <td data-label="Conservancy">${app.conservancy || ""}</td>
+                <td data-label="County">${app.county || ""}</td>
+                <td data-label="Edit"><button class="edit-btn" onclick="editApplication(${idx})">Edit</button></td>
+            </tr>`;
+    });
+}
+loadApplications();
+
+// Placeholder for edit action
+function editApplication(idx) {
+    document.getElementById('statusMsg').textContent =
+        "Edit functionality coming soon! Selected application #" + (idx+1);
+    // Here you can open a modal or add inline editing
+}
+</script>
+</body>
+</html>

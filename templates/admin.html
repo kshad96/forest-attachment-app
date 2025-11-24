@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Login</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #f7fafc; margin: 0; }
+        .container { max-width: 400px; margin: 60px auto; background: #fff; padding: 30px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.09);}
+        h2 { text-align: center; color: #207561; }
+        .form-group { margin-bottom: 18px; }
+        label, input { width: 100%; display: block; }
+        input { padding: 8px; border: 1px solid #ddd; border-radius: 6px; }
+        button { background: #207561; color: #fff; padding: 11px; border: none; border-radius: 7px; font-size: 1em; cursor: pointer; }
+        button:hover { background: #145241; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Admin Login</h2>
+        <form id="adminLoginForm">
+            <div class="form-group">
+                <label for="adminUser">Username</label>
+                <input type="text" id="adminUser" required>
+            </div>
+            <div class="form-group">
+                <label for="adminPass">Password</label>
+                <input type="password" id="adminPass" required>
+            </div>
+            <button type="submit">Login</button>
+        </form>
+        <div id="loginMsg" style="margin-top:18px;color:#d72e2e;"></div>
+    </div>
+    <script>
+    document.getElementById('adminLoginForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        const username = document.getElementById('adminUser').value;
+        const password = document.getElementById('adminPass').value;
+        const res = await fetch('/admin-login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username, password })
+        });
+        const data = await res.json();
+        if(data.success) {
+            window.location.href = '/admin-dashboard';
+        } else {
+            document.getElementById('loginMsg').textContent = data.msg;
+        }
+    });
+    </script>
+</body>
+</html>

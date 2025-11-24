@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Kenya Forestry College |Student Attachment Application Portal</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+    body {
+    font-family: Arial, sans-serif;
+    background: #f7fafc;
+    margin: 0;
+}
+/* Responsive table for mobile */
+@media (max-width: 700px) {
+  table, thead, tbody, th, td, tr {
+    display: block;
+    width: 100%;
+  }
+  tr { margin-bottom: 18px; border-bottom: 2px solid #eee;}
+  th { display: none; }
+  td {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+    word-break: break-word; /* allows long words to break */
+    font-size: 1.05em;
+  }
+  td::before {
+    content: attr(data-label);
+    font-weight: 700;
+    color: #207561;
+    flex: 1 1 40%;
+    margin-right: 10px;
+    text-align: left;
+  }
+}
+
+.container {
+    max-width: 900px;
+    margin: 40px auto;
+    background: #fff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.07);
+}
+h1 {
+    text-align: center;
+    color: #207561;
+}
+.form-group {
+    margin-bottom: 18px;
+}
+.form-group label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 600;
+}
+input, select {
+    width: 100%;
+    padding: 9px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    box-sizing: border-box;
+    font-size: 1em;
+}
+button {
+    background: #207561;
+    color: #fff;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 7px;
+    font-size: 1em;
+    cursor: pointer;
+}
+button:hover {
+    background: #145241;
+}
+.stations-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 40px;
+    font-size: 0.97em;
+}
+.stations-table th, .stations-table td {
+    padding: 7px 10px;
+    border: 1px solid #eee;
+    word-break: break-word;
+}
+.stations-table th {
+    background: #207561;
+    color: #fff;
+}
+.slots {
+    font-weight: 700;
+}
+.locked {
+    color: #d72e2e;
+}
+.available {
+    color: #207561;
+}
+
+/* ------ Mobile tweaks ------ */
+@media (max-width: 600px) {
+    .container {
+        padding: 10px 2vw;
+        margin: 10px 0;
+        border-radius: 0;
+        box-shadow: none;
+    }
+    h1 {
+        font-size: 1.25em;
+    }
+    table.stations-table, .stations-table thead, .stations-table tbody, .stations-table th, .stations-table td, .stations-table tr {
+        display: block;
+        width: 100%;
+    }
+    .stations-table tr {
+        margin-bottom: 14px;
+        border-bottom: 2px solid #ddd;
+    }
+    .stations-table th {
+        display: none;
+    }
+    .stations-table td {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 8px 0;
+        font-size: 0.95em;
+    }
+    .stations-table td::before {
+        content: attr(data-label);
+        font-weight: bold;
+        flex: 1 1 60%;
+        margin-right: 10px;
+        color: #555;
+    }
+}
+
+    </style>
+</head>
+<body>
+    <hr>
+<a href="/admin" style="font-weight: bold; color: #207561;">Go to Admin Panel</a>
+
+<div class="container">
+    <h1>Kenya Forestry College | Attachment Application Portal</h1>
+<form id="applyForm">
+    <div class="form-group">
+        <label for="name">Full Name</label>
+        <input type="text" id="name" required
+               placeholder="e.g., John Mwangi"
+               pattern="[A-Za-z ]{2,}"
+               title="Name should only contain letters and spaces">
+    </div>
+    <div class="form-group">
+        <label for="admissionNo">Admission Number</label>
+        <input type="text" id="admissionNo" required
+               placeholder="e.g., C1/5/001/2025"
+               pattern="[A-Za-z0-9/]{7,20}"
+               title="Format: C1/5/001/2025">
+    </div>
+    <div class="form-group">
+        <label for="gender">Gender</label>
+        <select id="gender" required>
+            <option value="" disabled selected>Select your gender</option>
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="email">Email Address</label>
+        <input type="email" id="email" required
+               placeholder="e.g., student@gmail.com"
+               title="Enter a valid email address">
+    </div>
+    <div class="form-group">
+        <label for="phone">Phone Number</label>
+        <input type="text" id="phone" required
+               placeholder="e.g., 0712345678"
+               pattern="(01|07)[0-9]{8}$"
+               title="Format: 07XXXXXXXX (10 digits)">
+    </div>
+    <div class="form-group">
+        <label for="class">Select Class</label>
+        <select id="class" required>
+            <option value="" disabled selected>Select your class</option>
+            <option value="5th Diploma in Forestry">5th Diploma in Forestry</option>
+            <option value="5th Diploma in Environmental Management">5th Diploma in Environmental Management</option>
+            <option value="6th Certificate in Forestry">6th Certificate in Forestry</option>
+            <!-- Add more classes if needed -->
+        </select>
+    </div>
+<div class="form-group">
+    <label for="station">Preferred Station</label>
+    <select id="station" required></select>
+</div>
+
+
+    <button type="submit">Apply for Attachment</button>
+</form>
+
+    <hr>
+    <hr>
+<h2>Check your Application</h2>
+<form id="lookupForm">
+    <div class="form-group">
+        <label for="lookupAdmissionNo">Enter your Admission Number:</label>
+        <input type="text" id="lookupAdmissionNo" required>
+    </div>
+    <button type="submit">Check Application</button>
+</form>
+<div id="lookupResult" style="margin-top:18px; font-size:1.05em;"></div>
+
+    <h2>Available Forest Stations</h2>
+    <table class="stations-table" id="stationsTable">
+        <!-- JS fills rows -->
+    </table>
+</div>
+
+<script>
+let stations = [];
+
+async function fetchStations(selectedGender = '') {
+    const res = await fetch('/stations');
+    stations = await res.json();
+    refreshStationOptions(selectedGender);
+    refreshStationTable();
+}
+
+function refreshStationOptions(selectedGender) {
+    const select = document.getElementById('station');
+    // Always start with the placeholder option!
+    select.innerHTML = '<option value="" disabled selected>Select a station</option>';
+    stations.forEach((station, idx) => {
+        const availableSlots = station.capacity - station.applicants.length;
+        const lockedGender = station.applicants[0]?.gender ?? null;
+        const genderLockedOut = lockedGender && selectedGender && lockedGender !== selectedGender;
+        if (availableSlots > 0 && (!genderLockedOut)) {
+            const opt = document.createElement('option');
+            opt.value = idx;
+            opt.text = `${station.name} (${station.conservancy}, ${station.county}) - `
+                + `${availableSlots} slot${availableSlots > 1 ? 's' : ''}`
+                + (lockedGender ? ` [Locked: ${lockedGender}]` : '');
+            select.appendChild(opt);
+        }
+    });
+}
+
+
+function refreshStationTable() {
+    const table = document.getElementById('stationsTable');
+    table.innerHTML = `
+        <tr>
+            <th>#</th>
+            <th>Station Name</th>
+            <th>Conservancy</th>
+            <th>County</th>
+            <th>Slots Left</th>
+            <th>Gender</th>
+        </tr>
+    `;
+    stations.forEach((station, idx) => {
+        const availableSlots = station.capacity - station.applicants.length;
+        const lockedGender = station.applicants[0]?.gender ?? '';
+        //
+           table.innerHTML += `
+            <tr>
+             <td data-label="#">${idx + 1}</td>
+             <td data-label="Station Name">${station.name}</td>
+             <td data-label="Conservancy">${station.conservancy}</td>
+             <td data-label="County">${station.county}</td>
+             <td data-label="Slots Left" class="slots ${availableSlots>0 ? 'available':'locked'}">${availableSlots}</td>
+             <td data-label="Gender">${lockedGender ? lockedGender : '-'}</td>
+           </tr>
+`;
+
+    });
+}
+
+document.getElementById('gender').addEventListener('change', function() {
+    fetchStations(this.value);
+});
+
+document.getElementById('applyForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const idx = document.getElementById('station').value;
+    const applicant = {
+        name: document.getElementById('name').value,
+        admissionNo: document.getElementById('admissionNo').value,
+        gender: document.getElementById('gender').value,
+        email: document.getElementById('email').value,      // Add this line
+        phone: document.getElementById('phone').value,      // Add this line
+        class: document.getElementById('class').value,      // Add this line
+        stationIdx: idx
+    };
+    
+    const res = await fetch('/apply', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(applicant)
+    });
+
+    const data = await res.json();
+    if (data.success) {
+        alert("Application successful!");
+        this.reset();
+        fetchStations(); // get updated stations
+    } else {
+        alert(data.msg);
+        fetchStations(applicant.gender); // ensure options are up-to-date
+    }
+});
+
+document.getElementById('lookupForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const admissionNo = document.getElementById('lookupAdmissionNo').value;
+    const res = await fetch('/lookup', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ admissionNo })
+    });
+    const data = await res.json();
+    const resultDiv = document.getElementById('lookupResult');
+    if (data.success) {
+        const app = data.data;
+        resultDiv.innerHTML = 
+            `<b>Name:</b> ${app.name}<br>
+             <b>Admission No:</b> ${app.admissionNo}<br>
+             <b>Gender:</b> ${app.gender}<br>
+             <b>Email:</b> ${app.email}<br>
+             <b>Phone:</b> ${app.phone}<br>
+             <b>Class:</b> ${app.class}<br>
+             <b>Station:</b> ${app.station} (${app.conservancy}, ${app.county})`;
+    } else {
+        resultDiv.textContent = data.msg;
+    }
+});
+
+
+// Initial load
+fetchStations();
+</script>
+</body>
+</html>
